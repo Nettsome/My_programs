@@ -1,0 +1,4 @@
+ivanov male 20 programing 100 credit
+sidorov male 21 work 50 credit
+Иванов муж. 45 музыкант 15 вклад
+Безос муж. 55 бизнесмен 1000000000 кредит

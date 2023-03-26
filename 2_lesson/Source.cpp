@@ -8,6 +8,11 @@
 
 using namespace std;
 
+bool fill_stack(S_path_node*& pathstack);
+
+void print_path(S_path_node*& stack);
+
+
 void task1()
 {
     int x, y;
@@ -124,7 +129,7 @@ bool fill_stack(S_path_node*& pathstack)
     const int n = 9; // ширина лабиринта
     const int m = 9; // длина
 
-    int labirint[][n] = {{1, 1,  1, 1,  1, 1, 1, 0, 1},
+    int labirint[][n] = {{1, 1,  1, 0,  1, 1, 1, 1, 1},
                          {1, 0,  0, 0,  1, 0, 1, 0, 1},
                          {1, 0,  1, 0,  0, 0, 1, 0, 1},
                          {1, 0,  1, 0,  1, 0, 1, 0, 1},
@@ -236,6 +241,8 @@ void print_path(S_path_node*& stack)
         if (tmp.i == curr.i && tmp.j == curr.j)
         {
             cout << "(" << curr.i << ", " << curr.j << ")" << endl;
+            cout << "(" << prev.i << ", " << prev.j << ")" << endl;
+            cout << "\n";
 
             tmp = prev;
         }
