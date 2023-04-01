@@ -8,7 +8,6 @@ void enqueue(queue& q, man client)
 	if (q.last) q.last->next = new_elem;
 	q.last = new_elem;
 	if (!q.first) q.first = new_elem;
-	q.size++;
 }
 
 bool dequeue(queue& q, man& client)
@@ -20,7 +19,6 @@ bool dequeue(queue& q, man& client)
 	delete old_elem;
 	if (q.first) q.first->prev = nullptr;
 	else q.last = nullptr;
-	q.size--;
 	return true;
 }
 

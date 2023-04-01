@@ -52,17 +52,17 @@ void file_open(const char* filename, queue& credit, queue& vklad)
 		}
 		delete[] line;
 
-		cout << "credit mans:" << endl;
-		while (dequeue(credit, man))
-		{
-			print_man(man);
+		//cout << "credit mans:" << endl;
+		//while (dequeue(credit, man))
+		//{
+		//	print_man(man);
 
-		}
-		cout << "vklad mans:" << endl;
-		while (dequeue(vklad, man))
-		{
-			print_man(man);
-		}
+		//}
+		//cout << "vklad mans:" << endl;
+		//while (dequeue(vklad, man))
+		//{
+		//	print_man(man);
+		//}
 		f.close();
 	}
 }
@@ -75,10 +75,10 @@ man create_person(char* man_data)
 	char* gender = new char[50];
 	int age;
 	char* work = new char[50];
-	int zarplata;
+	long long int zarplata;
 	char* tsel = new char[50];
 
-	sscanf_s(man_data, "%s %s %d %s %d %s", name, 50, gender, 50, &age, work, 50, &zarplata, tsel, 50);
+	sscanf_s(man_data, "%s %s %d %s %lld %s", name, 50, gender, 50, &age, work, 50, &zarplata, tsel, 50);
 	strcpy_s(m.Fio, name);
 	strcpy_s(m.gender, gender);
 	m.age = age;
@@ -94,14 +94,22 @@ man create_person(char* man_data)
 
 void save(const char* filename, queue& q)
 {
-	ofstream f(filename);
+	ofstream f(filename, ios_base::app);
 	if (f.is_open())
 	{
 		man m;
 		while (dequeue(q, m))
 		{
 			print_man(m);
-			f << m.Fio << " " << m.gender << m.age << m.work << m.zarplata << m.tsel << endl;
+			f << m.Fio << "\t";
+			f << m.gender << "\t";
+			f << m.age << "\t";
+			f << m.work << "\t";
+			if (m.zarplata < 1000000000)
+				f << m.zarplata << "\t\t";
+			else
+				f << m.zarplata << "\t";
+			f << m.tsel << "\t" << endl;
 		}
 		f.close();
 	}

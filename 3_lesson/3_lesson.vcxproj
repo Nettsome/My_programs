@@ -130,12 +130,14 @@
     <ClInclude Include="queue.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="credit.txt" />
     <Text Include="input.txt" />
     <Text Include="output.txt" />
+    <Text Include="vklad.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3_lesson.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="task3.cpp" />
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="task1.cpp" />
   </ItemGroup>

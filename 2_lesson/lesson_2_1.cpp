@@ -2,6 +2,7 @@
 #include "stek.h"
 #include <cstdlib>
 #include <time.h>
+#include "work_files.h"
 
 
 
@@ -13,7 +14,7 @@ bool fill_stack(S_path_node*& pathstack);
 void print_path(S_path_node*& stack);
 
 
-void task1()
+void task1_1()
 {
     int x, y;
 
@@ -48,14 +49,14 @@ void task1()
         }
     }
 
-    cout << "======================================================" << endl;
+    cout << "\n======================================================" << endl;
     while (pop2(stack2, x, y))
     {
         cout << "(" << x << ", " << y << ")" << "\t";
     }
 }
 
-void task2()
+void task2_1()
 {
     elem* stack = nullptr;
 
@@ -103,7 +104,7 @@ void task2()
     }
 }
 
-void task3()
+void task3_1()
 {
     S_path_node* path_stack = nullptr;;
 
@@ -117,7 +118,6 @@ void task3()
         print_path(path_stack);
     }
 }
-
 
 
 const int OPEN_VAL = 0;
@@ -194,7 +194,6 @@ bool fill_stack(S_path_node*& pathstack)
     }
 }
 
-
 /*
     j
     #
@@ -202,28 +201,6 @@ i # x #
     #
 
 */
-
-//void print_path(R_path_stack*& stack)
-//{
-//    cout << "The route in the maze from the exit to the starting cell:" << endl;
-//
-//    int i_curr;
-//    int j_curr;
-//    int i_prev;
-//    int j_prev;
-//
-//    cout << "=========================" << endl;
-//    pop_R(stack, i_curr, j_curr, i_prev, j_prev);
-//    cout << "(" << i_curr << ", " << j_curr << ")" << endl;
-//    while (pop_R(stack, i_curr, j_curr, i_prev, j_prev))
-//    {
-//        // cout << "Yes" << endl;
-//        cout << "(" << i_curr << ", " << j_curr << ")" << endl;
-//    }
-//    cout << "(" << i_prev << ", " << j_prev << ")" << endl;
-//}
-
-
 
 void print_path(S_path_node*& stack)
 {
@@ -261,9 +238,12 @@ void print_path(S_path_node*& stack)
 // g++ ./test.cpp ./stek.cpp
 int main()
 {
-    // task1();
-    // task2();
-    task3();
+    // task1_1();
+    // task2_1();
+    // task3_1();
+
+
+    task1_2();
 
 
 

@@ -66,49 +66,6 @@ bool pop2(twoelem*& top, int& x, int& y)
 // ==============================================================================================
 
 
-// =====================================================================================================
-//
-// void cell(S_cell*& cell, int i, int j)
-// {
-// 	cell->i = i;
-// 	cell->j = j;
-// }
-//
-// void path_node(S_path_node*& path_node, S_cell curr_cell, S_cell prev_cell)
-// {
-// 	path_node->curr_cell = curr_cell;
-// 	path_node->prev_cell = prev_cell;
-// }
-//
-// void push_path(S_path_stack*& path_stack, S_path_node node)
-// {
-// 	S_path_stack* newel = new S_path_stack;
-// 	newel->node = node;
-// 	newel->next = path_stack;
-// 	path_stack = newel;
-// }
-//
-// bool peek_path(S_path_node* path_stack, S_cell curr_cell, S_cell prev_cell)
-// {
-//
-// }
-//
-//
-// ===========================================================================================================
-
-
-//void push_R(R_path_stack*& path_stack, int i_curr, int j_curr, int i_prev, int j_prev)
-//{
-//	R_path_stack* newel = new R_path_stack;
-//
-//	newel->i_curr = i_curr;
-//	newel->j_curr = j_curr;
-//	newel->i_prev = i_prev;
-//	newel->j_prev = j_prev;
-//
-//	newel->next = path_stack;
-//	path_stack = newel;
-//}
 
 void push_S(S_path_node*& path_stack, int i_curr, int j_curr, int i_prev, int j_prev)
 {
@@ -124,25 +81,6 @@ void push_S(S_path_node*& path_stack, int i_curr, int j_curr, int i_prev, int j_
 }
 
 
-
-//bool pop_R(R_path_stack*& stack, int& i_curr, int& j_curr, int& i_prev, int& j_prev)
-//{
-//	if (!stack) return false;
-//
-//	i_curr = stack->i_curr;
-//	j_curr = stack->j_curr;
-//	i_prev = stack->i_prev;
-//	j_prev = stack->j_prev;
-//
-//	// cout << i_curr << "\t" << j_curr << endl;
-//
-//	auto old_el = stack;
-//	stack = stack->next;
-//	delete old_el;
-//	return true;
-//}
-
-
 bool pop_S(S_path_node*& stack, S_cell& curr, S_cell& prev)
 {
 	if (!stack) return false;
@@ -155,4 +93,28 @@ bool pop_S(S_path_node*& stack, S_cell& curr, S_cell& prev)
 	delete old_el;
 	return true;
 
+}
+
+// ===========================================================
+
+void push(m_elem*& stack, char skob, int pos)
+{
+	m_elem* newel = new m_elem;
+
+	newel->pos = pos;
+	newel->skobka = skob;
+	newel->next = stack;
+	stack = newel;
+}
+
+bool pop(m_elem*& stack, char& skob, int& pos)
+{
+	if (!stack) return false;
+
+	skob = stack->skobka;
+	pos = stack->pos;
+	auto old = stack;
+	stack = stack->next;
+	delete old;
+	return true;
 }

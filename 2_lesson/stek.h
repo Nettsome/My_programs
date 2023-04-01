@@ -23,7 +23,8 @@ void push2(twoelem*& top, int x, int y);
 bool peek2(twoelem* top, int& x, int& y);
 bool pop2(twoelem*& top, int& x, int& y);
 
-//===============================================================
+//=========================================================================================================
+
 struct T_cell
 {
     int i_;
@@ -56,30 +57,6 @@ struct T_path_node
 };
 
 
-// =========================================================================================
-
-
-
-
-//struct R_path_stack
-//{
-//    int i_curr;
-//    int j_curr;
-//    int i_prev;
-//    int j_prev;
-//
-//    R_path_stack* next = nullptr;
-//};
-//
-//
-//void    push_R(R_path_stack*& path_stack, int i_curr, int j_curr, int i_prev, int j_prev);
-//
-//bool    pop_R(R_path_stack*& stack, int& i_curr, int& j_curr, int& i_prev, int& j_prev);
-
-
-
-
-
 
 struct S_cell
 {
@@ -99,8 +76,20 @@ bool        pop_S(S_path_node*& stack, S_cell& curr, S_cell& prev);
 
 void        push_S(S_path_node*& path_stack, int i_curr, int j_curr, int i_prev, int j_prev);
 
+//=========================================================================================================
+// lesson 2_2
+//
 
 
+struct m_elem
+{
+    char skobka;
+    int pos;
+    m_elem* next = nullptr;
+};
 
+void        push(m_elem*& stack, char skob, int pos);
+
+bool        pop(m_elem*& stack, char& skob, int& pos);
  
 #endif
