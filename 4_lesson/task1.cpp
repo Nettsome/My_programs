@@ -28,12 +28,12 @@ void add_in_sort_list(list_elem*& list, person stud)
 	list_elem* newel = new list_elem;
 	newel->student = stud;
 
-	if (!list)											//	Если 1 группа пустая
+	if (!list)											//	Если группа пустая
 	{
 		list = newel;
 		return;
 	}
-	else													//	Если 1 группа не пустая, то сортируем вновь прибывших в список студентов
+	else													//	Если группа не пустая, то сортируем вновь прибывшего в список студента
 	{
 		list_elem* curr = list;
 
