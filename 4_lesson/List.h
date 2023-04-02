@@ -22,10 +22,11 @@ bool		pop(list_elem*& list, person& stud);
 
 
 void		open_file(const char* filename, list_elem*& list);
-person		creat_person(char* person_data);
+person			creat_person(char* person_data);
 
 
 void		separation(list_elem*& list, list_elem*& group1, list_elem*& group2);
+void			add_in_sort_list(list_elem*& list, person stud);
 
 
 
