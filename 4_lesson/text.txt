@@ -1,2 +1,0 @@
-ivanov male 20 programing 100 credit
-sidorov male 21 work 50 credit

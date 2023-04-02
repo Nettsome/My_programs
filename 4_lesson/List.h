@@ -15,3 +15,17 @@ struct list_elem
 	size_t size = 0;
 };
 
+
+void		add(list_elem*& list, person student);
+
+bool		pop(list_elem*& list, person& stud);
+
+
+void		open_file(const char* filename, list_elem*& list);
+person		creat_person(char* person_data);
+
+
+void		separation(list_elem*& list, list_elem*& group1, list_elem*& group2);
+
+
+
