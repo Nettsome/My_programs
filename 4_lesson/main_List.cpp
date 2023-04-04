@@ -35,9 +35,58 @@ void task1()
 	}
 }
 
+void task2()
+{
+	srand(time(0));
+
+	list_int_elem* list = nullptr;
+
+	for (int i = 0; i < 10; i++)
+	{
+		add_unique(list, i);
+	}
+
+
+	swaptwo(list, 1, 9);
+
+	int x;
+	while (pop(list, x))
+	{
+		cout << x << endl;
+	}
+}
+
+void	task3()
+{
+	srand(time(0));
+	list_int_elem* list = nullptr;
+	int n;
+	for (int i = 0; i < 10; i++)
+	{
+		//n = rand() % 10;
+		cin >> n;
+		//cout << n << endl;
+		add_unique(list, n);
+	}
+
+	cout << "\n------------------------------------" << endl;
+	while (pop(list, n))
+	{
+		cout << n << endl;
+	}
+}
+
 int main()
 {
 	setlocale(LC_ALL, "Rus");
 
-	task1();
+	//task1();
+
+	//task2();
+
+	//task3();
+
+
+
+
 }
