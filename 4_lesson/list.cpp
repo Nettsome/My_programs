@@ -160,6 +160,7 @@ void swaptwo(list_int_elem*& list, int pos1, int pos2)			// pos1 < pos2
 
 			return;
 		}
+
 		list_int_elem* first = list;
 		list_int_elem* curr = list;
 		list_int_elem* p2 = list;
