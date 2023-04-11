@@ -26,5 +26,11 @@
     <ClCompile Include="main_list2.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="task2.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="first_list.txt" />
   </ItemGroup>
 </Project>
