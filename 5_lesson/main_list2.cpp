@@ -24,12 +24,23 @@ void task1()
 	print_list(list);
 }
 
+void task2()
+{
+	return;
+}
+
 int main()
 {
-	const char* filename = "first_list.txt";
+	const char* filename1 = "first_list.txt";
+	const char* filename2 = "second_list.txt";
+
+	cyclic_list first;
+	cyclic_list second;
+
+	file_open(filename1, first);
+	file_open(filename2, second);
 
 	cyclic_list list;
-
-	file_open(filename, list);
+	union_of_lists(list, first, second);
 
 }

@@ -32,5 +32,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="first_list.txt" />
+    <Text Include="second_list.txt" />
   </ItemGroup>
 </Project>

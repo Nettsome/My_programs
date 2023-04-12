@@ -17,10 +17,17 @@ struct list2
 	elem* last = nullptr;
 };
 
+
+struct cyclic_list
+{
+	elem* head = nullptr;
+};
+
+
 // Service
 //====================
 
-void	file_open(const char* filename, list2& list);
+void	file_open(const char* filename, cyclic_list& list);
 
 void	print_list(list2& list);
 
@@ -33,11 +40,10 @@ void	add_unique(list2& list, int x);
 
 // Task 2
 
-struct cyclic_list
-{
-	elem* head = nullptr;
-};
+
 
 void	add_uniq_in_cyclic(cyclic_list& list, int x);
 
-void	file_open(const char* filename, cyclic_list& list);
+bool	pop_cyclic_list(cyclic_list& list, int& x);
+
+void	union_of_lists(cyclic_list& list, cyclic_list& first, cyclic_list& second);
