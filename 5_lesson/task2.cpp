@@ -37,6 +37,28 @@ void	add_uniq_in_cyclic(cyclic_list& list, int x)
 	}
 }
 
+void	add_in_cyclic(cyclic_list& list, int x)
+{
+	elem* newel = new elem;
+	newel->x = x;
+
+	if (!list.head)
+	{
+		list.head = newel;
+		newel->next = newel;
+		newel->prev = newel;
+	}
+	else
+	{
+		elem* curr = list.head->prev;
+
+		curr->next = newel;
+		newel->prev = curr;
+		newel->next = list.head;
+		list.head->prev = newel;
+	}
+}
+
 bool pop_cyclic_list(cyclic_list& list, int& x)
 {
 	if (!list.head)

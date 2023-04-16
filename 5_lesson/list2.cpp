@@ -92,8 +92,6 @@ void add_unique(list2& list, int x)
 			{
 				return;
 			}
-			//if (curr == list.last)
-				//break;
 			curr = curr->next;
 		}
 		newel->next = list.last->next;
