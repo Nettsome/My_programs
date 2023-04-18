@@ -20,9 +20,15 @@ struct list2
 
 //	Functions
 // ===============
-void	add_in_list(list2& list, elem* newel);
+void	file_open(const char* filename, list2& list);
 
 void	separation(char* line, list2& list);
+
+void	add_in_list(list2& list, elem* newel);
+
+void	addition(list2& cyclic_list, list2& list1, list2& list2);
+
+void	add_in_cyclic(list2& list, int x);
 // ==============
 
 
@@ -40,8 +46,7 @@ void	file_open(const char* filename, list2& list)
 		while (!f.eof())
 		{
 			f.getline(line, linelen);
-
-
+			separation(line, list);
 		}
 
 		delete[] line;
@@ -50,11 +55,10 @@ void	file_open(const char* filename, list2& list)
 }
 
 
-void	separation(char* line, list2& list)
+void	separation(char* line, list2& list)		//	Разделение большого числа на несколько маленьких и занесение их в список			
 {
-	// ����� ������ ����:
-	// �������� ������������ ��������� ������
-	// �������� �� ��, ��� ������ �� ������
+	// Здесь должна быть:
+	// проверка корректности введенных данных
 
 	int n = strlen(line);
 	int dec;
@@ -90,7 +94,7 @@ void	separation(char* line, list2& list)
 }
 
 
-void	add_in_list(list2& list, elem* newel)
+void	add_in_list(list2& list, elem* newel)	//	Добавление в начало списка
 {
 	if (!list.first)
 	{
@@ -115,9 +119,89 @@ void	addition(list2& cyclic_list, list2& list1, list2& list2)
 	elem* curr1 = list1.last;
 	elem* curr2 = list2.last;
 
-	while (curr1 && curr2)
+	int sum;
+	short int mem = 0;
+
+	while (curr1 || curr2)
 	{
-		
+		if (curr1 && curr2)
+		{
+			sum = curr1->x + curr2->x + mem;
+
+			if (sum >= 1000000000)
+			{
+				mem = 1;
+				sum -= 1000000000;
+			}
+			else
+				mem = 0;
+
+			add_in_cyclic(cyclic_list, sum);
+
+			curr1 = curr1->prev;
+			curr2 = curr2->prev;
+		}
+
+		else if (curr1 && !curr2)	//	curr2 = null
+		{
+			sum = curr1->x + mem;
+
+			if (sum >= 1000000000)
+			{
+				mem = 1;
+				sum -= 1000000000;
+			}
+			else
+				mem = 0;
+
+			add_in_cyclic(cyclic_list, sum);
+
+			curr1 = curr1->prev;
+		}
+
+		else if (curr2 && !curr1)
+		{
+			sum = curr2->x + mem;
+
+			if (sum >= 1000000000)
+			{
+				mem = 1;
+				sum -= 1000000000;
+			}
+			else
+				mem = 0;
+
+			add_in_cyclic(cyclic_list, sum);
+
+			curr2 = curr2->prev;
+		}		
+	}
+	if (mem == 1)
+	{
+		add_in_cyclic(cyclic_list, 1);
+	}
+}
+
+void	add_in_cyclic(list2& list, int x)
+{
+	elem* newel = new elem;
+	newel->x = x;
+
+	if (!list.first)
+	{
+		list.first = newel;
+		list.last = newel;
+		newel->next = newel;
+		newel->prev = newel;
+	}
+	else
+	{
+		newel->next = list.first;
+		newel->prev = list.last;
+
+		list.first->prev = newel;
+		list.last->next = newel;
+		list.first = newel;
 	}
 }
 
@@ -129,8 +213,48 @@ void	test1()
 	separation(line, list);
 }
 
+void	test2()
+{
+	char line1[] = "999999999999999999999999999";
+
+	char line2[] = "1";
+
+	list2 list_1;
+	list2 list_2;
+
+	separation(line1, list_1);
+	separation(line2, list_2);
+
+	list2 cyclic_list;
+
+	addition(cyclic_list, list_1, list_2);
+
+
+	//delete[] line1;
+	//delete[] line2;
+}
+
+void	test3()
+{
+	const char* filename1 = "first_number.txt";
+	const char* filename2 = "second_number.txt";
+
+	list2 list_1;
+	list2 list_2;
+
+	file_open(filename1, list_1);
+	file_open(filename2, list_2);
+
+	list2 cyclic;
+	addition(cyclic, list_1, list_2);
+
+	cout << "Hello" << endl;
+}
+
 int main()
 {
-	test1();
+
+
+	test3();
 
 }

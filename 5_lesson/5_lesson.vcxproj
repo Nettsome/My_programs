@@ -139,6 +139,7 @@
     <Text Include="first_list.txt" />
     <Text Include="first_number.txt" />
     <Text Include="second_list.txt" />
+    <Text Include="second_number.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
