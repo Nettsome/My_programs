@@ -96,6 +96,7 @@ bool pop_S(S_path_node*& stack, S_cell& curr, S_cell& prev)
 }
 
 // ===========================================================
+//	lesson_2_2
 
 void push(m_elem*& stack, char skob, int pos)
 {

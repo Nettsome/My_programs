@@ -236,16 +236,16 @@ void print_path(S_path_node*& stack)
 
 
 // g++ ./test.cpp ./stek.cpp
-int main()
-{
-    // task1_1();
-    // task2_1();
-    // task3_1();
-
-
-    task1_2();
-
-
-
-    return 0;
-}
+//int main()
+//{
+//    // task1_1();
+//    // task2_1();
+//    // task3_1();
+//
+//
+//    task1_2();
+//
+//
+//
+//    return 0;
+//}

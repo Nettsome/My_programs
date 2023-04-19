@@ -115,7 +115,6 @@ void	add_in_list(list2& list, elem* newel)	//	Добавление в начал
 
 void	addition(list2& cyclic_list, list2& list1, list2& list2)
 {
-	// ��������� �� ��������� ��������
 	elem* curr1 = list1.last;
 	elem* curr2 = list2.last;
 
