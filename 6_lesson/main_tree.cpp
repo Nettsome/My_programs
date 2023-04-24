@@ -74,9 +74,9 @@ void	task1()
 	drop(t);
 }
 
-int	main()
-{
-	//task1();
-
-
-}
+//int	main()
+//{
+//	//task1();
+//
+//
+//}

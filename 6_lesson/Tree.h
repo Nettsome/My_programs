@@ -27,9 +27,9 @@ struct person_tree
 	person_node* root = nullptr;
 };
 
-bool	add(person_tree*& tree, person pers);
-int		find(person_tree tree, char c);
-void	drop(person_node*& root);
+bool		add(person_tree*& tree, person pers);
+queue_p		find(person_tree tree, char c);
+void		drop(person_node*& root);
 
 
 

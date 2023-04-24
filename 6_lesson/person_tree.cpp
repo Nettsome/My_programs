@@ -1,18 +1,24 @@
 #include "Tree.h"
-#include <queue>
+//#include <queue>
 
 using namespace std;
 
 bool	add(person_node*& root, person pers);
+void	drop(person_node*& root);
+int		get_height(const person_node* root);
+void	find(person_node* root, char c, queue_p q);
+
 
 bool	add(person_tree*& tree, person pers)
 {
 	return add(tree->root, pers);
 }
 
-int		find(person_tree tree, char c)
+queue_p		find(person_tree tree, char c)
 {
-	return find(tree.root, c);
+	queue_p q;
+	find(tree.root, c, q);
+	return q;
 }
 
 void	drop(person_tree& tree)
@@ -61,12 +67,19 @@ int		get_height(const person_node* root)
 	return 1 + (lh < rh ? rh : lh);
 }
 
-int		find(const person_node* root, char c)
+
+
+void	find(person_node* root, char c, queue_p q)	// Not complete
 {
-	std::queue<person> q;
 	if (root)
 	{
-		if (root->p.name[0] == c) q.push(root->p);
-		return find(c >= root->p.name[0] ? root->right : root->left, c);
+		if (c == root->p.name[0])
+		{
+			enqueue(q, root);
+			find(c == root->right->p.name[0] ? root->right : nullptr, c, q);
+			return;
+		}
+		find(c >= root->p.name[0] ? root->right : root->left, c, q);
 	}
+	else return;
 }

@@ -19,7 +19,7 @@ struct node
 struct person
 {
 	char name[20];
-	int score;
+	double score;
 	int count = 1;
 };
 

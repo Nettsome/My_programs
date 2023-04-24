@@ -1,6 +1,6 @@
 #include "queue.h"
 
-void enqueue(queue1& q, node* employee)
+void enqueue(queue& q, node* employee)
 {
 	auto* new_elem = new queue_elem;
 	new_elem->tree_node = employee;
@@ -10,7 +10,7 @@ void enqueue(queue1& q, node* employee)
 	if (!q.first) q.first = new_elem;
 }
 
-bool dequeue(queue1& q, node*& node)
+bool dequeue(queue& q, node*& node)
 {
 	if (!q.first) return false;
 	node = q.first->tree_node;
@@ -22,7 +22,40 @@ bool dequeue(queue1& q, node*& node)
 	return true;
 }
 
-void clear(queue1& q)
+void clear(queue& q)
+{
+	auto* curr = q.first;
+	while (curr)
+	{
+		auto* old_elem = curr;
+		curr = curr->next;
+		delete old_elem;
+	}
+}
+
+void enqueue(queue_p& q, person_node* employee)
+{
+	auto* new_elem = new queue_p_elem;
+	new_elem->tree_node = employee;
+	new_elem->prev = q.last;
+	if (q.last) q.last->next = new_elem;
+	q.last = new_elem;
+	if (!q.first) q.first = new_elem;
+}
+
+bool dequeue(queue_p& q, person_node*& node)
+{
+	if (!q.first) return false;
+	node = q.first->tree_node;
+	auto* old_elem = q.first;
+	q.first = q.first->next;
+	delete old_elem;
+	if (q.first) q.first->prev = nullptr;
+	else q.last = nullptr;
+	return true;
+}
+
+void clear(queue_p& q)
 {
 	auto* curr = q.first;
 	while (curr)
