@@ -17,7 +17,9 @@ bool isOperand(char c);
 
 void push(s_elem*& stack, char c);
 
-bool pop(s_elem*& stack, char& c);
+void pop(s_elem*& stack);
+
+char	top(s_elem* stack);
 
 string infixToPostfix(string infix);
 //===================================
@@ -56,68 +58,8 @@ bool isOperand(char c)
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
 }
 
-// Ёта функци€ ожидает корректное инфиксное выражение
-//string infixToPostfix(string infix)
-//{
-//    // создаем пустой stack дл€ хранени€ операторов
-//    stack<char> s;
-//
-//    // создаем строку дл€ хранени€ постфиксного выражени€
-//    string postfix;
-//
-//    // обрабатываем инфиксное выражение слева направо
-//    for (char c : infix)
-//    {
-//        // —лучай 1. ≈сли текущий токен €вл€етс€ открывающей скобкой '(',
-//        // помещаем его в stack
-//        if (c == '(') {
-//            s.push(c);
-//        }
-//
-//        // —лучай 2. ≈сли текущий токен €вл€етс€ закрывающей скобкой ')'
-//        else if (c == ')')
-//        {
-//            // извлекаем токены из stack до тех пор, пока не по€витс€ соответствующа€ открывающа€ скобка '('
-//            // устранен. ƒобавл€йте каждый оператор в конец постфиксного выражени€
-//            while (s.top() != '(')
-//            {
-//                postfix.push_back(s.top());
-//                s.pop();
-//            }
-//            s.pop();
-//        }
-//
-//        // —лучай 3. ≈сли текущий токен €вл€етс€ операндом, добавл€ем его в конец
-//        // постфиксное выражение
-//        else if (isOperand(c)) {
-//            postfix.push_back(c);
-//        }
-//
-//        // —лучай 4. ≈сли текущий токен €вл€етс€ оператором
-//        else {
-//            // удал€ем из stack операторы с более высоким или равным приоритетом
-//            // и добавл€ем их в конец постфиксного выражени€
-//            while (!s.empty() && prec(c) >= prec(s.top()))
-//            {
-//                postfix.push_back(s.top());
-//                s.pop();
-//            }
-//
-//            // наконец, помещаем текущий оператор на вершину stack
-//            s.push(c);
-//        }
-//    }
-//
-//    // добавл€ем все оставшиес€ операторы в stack в конце постфиксного выражени€
-//    while (!s.empty())
-//    {
-//        postfix.push_back(s.top());
-//        s.pop();
-//    }
-//
-//    // возвращаем постфиксное выражение
-//    return postfix;
-//}
+
+
 
 
 
@@ -130,15 +72,19 @@ void push(s_elem*& stack, char c)
     stack = newel;
 }
 
-bool pop(s_elem*& stack, char& c)
+void pop(s_elem*& stack)
 {
-    if (!stack) return false;
+    if (!stack) return;
 
-    c = stack->c;
     auto old = stack;
     stack = stack->next;
     delete old;
-    return true;
+    return;
+}
+
+char	top(s_elem* stack)
+{
+    return stack->c;
 }
 
 //char top(s_elem* stack)
@@ -158,16 +104,16 @@ string infixToPostfix(string infix)
             push(s, c);
 
         // —лучай 2. ≈сли текущий токен €вл€етс€ закрывающей скобкой ')'
-        else if (c == ')')
+       else if (c == ')')
         {
             // извлекаем токены из stack до тех пор, пока не по€витс€ соответствующа€ открывающа€ скобка '('
             // ƒобавл€ем каждый оператор в конец постфиксного выражени€
-            char pushIN;
-            while (pop(s, pushIN) && pushIN != '(')
+            while (top(s) != '(')
             {
-                postfix.push_back(pushIN);
+                postfix.push_back(top(s));
+                pop(s);
             }
-            pop(s, pushIN);
+            pop(s);
         }
 
         // —лучай 3. ≈сли текущий токен €вл€етс€ операндом, добавл€ем его в конец
@@ -178,11 +124,11 @@ string infixToPostfix(string infix)
         // —лучай 4. ≈сли текущий токен €вл€етс€ оператором
         else
         {
-            char pushIN;
 
-            while (pop(s, pushIN) && prec(c) >= prec(pushIN))
+            while (s && prec(c) >= prec(top(s)))
             {
-                postfix.push_back(pushIN);
+                postfix.push_back(top(s));
+                pop(s);
             }
 
             push(s, c);
@@ -190,10 +136,10 @@ string infixToPostfix(string infix)
     }
 
     // добавл€ем все оставшиес€ операторы в stack в конце постфиксного выражени€
-    char pushIN;
-    while (pop(s, pushIN))
+    while (s)
     {
-        postfix.push_back(pushIN);
+        postfix.push_back(top(s));
+        pop(s);
     }
 
     return postfix;
@@ -201,8 +147,8 @@ string infixToPostfix(string infix)
 
 int main()
 {
-    string infix = "(a+b)^2/((c-d)(e+f^12)^3)";
-    //string infix = "-d*2";
+    string infix = "e-x^2";
+    //string infix = "2*2+2";
 
 
     string postfix = infixToPostfix(infix);
