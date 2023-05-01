@@ -1,78 +1,52 @@
 #include <iostream>
-#include "stek.h"
+#include <stack>
+#include <string>
+#include <cmath>
 
 using namespace std;
 
-struct s_elem
+struct c_elem
 {
     char c;
-    s_elem* next = nullptr;
+    c_elem* next = nullptr;
 };
 
-//  Finctions
-//===================================
-int prec(char c);
 
-bool isOperand(char c);
-
-void push(s_elem*& stack, char c);
-
-void pop(s_elem*& stack);
-
-char	top(s_elem* stack);
-
-string infixToPostfix(string infix);
-//===================================
-
-int str_to_int(char* s)
+struct d_elem
 {
-    int acc = 0;
-    for (int i = 0; i < strlen(s); i++) acc = acc * 10 + s[i] - '0';
-    return acc;
-}
+    double num;
+    d_elem* next = nullptr;
+};
 
-// Функция возврата приоритета данного оператора.
-// Чем выше приоритет, тем ниже его значение
-int prec(char c)
+
+
+void push(c_elem*& stack, char c)
 {
-    // Умножение и деление
-    if (c == '*' || c == '/') {
-        return 3;
-    }
-
-    // Сложение и вычитание
-    if (c == '+' || c == '-') {
-        return 4;
-    }
-
-    // Возведение в степень
-    if (c == '^')
-        return 2;
-
-    return INT_MAX;            // для открывающей скобки '('
-}
-
-// Вспомогательная функция для проверки, является ли данный токен операндом
-bool isOperand(char c)
-{
-    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
-}
-
-
-
-
-
-
-void push(s_elem*& stack, char c)
-{
-    s_elem* newel = new s_elem;
+    c_elem* newel = new c_elem;
 
     newel->c = c;
     newel->next = stack;
     stack = newel;
 }
+void push(d_elem*& stack, double c)
+{
+    d_elem* newel = new d_elem;
 
-void pop(s_elem*& stack)
+    newel->num = c;
+    newel->next = stack;
+    stack = newel;
+}
+
+void pop(c_elem*& stack)
+{
+    if (!stack) return;
+
+    auto old = stack;
+    stack = stack->next;
+    delete old;
+    return;
+}
+void pop(d_elem*& stack)
 {
     if (!stack) return;
 
@@ -82,77 +56,218 @@ void pop(s_elem*& stack)
     return;
 }
 
-char	top(s_elem* stack)
+char	top(c_elem* stack)
 {
     return stack->c;
 }
-
-//char top(s_elem* stack)
-
-
-string infixToPostfix(string infix)
+double  top(d_elem* stack)
 {
-    s_elem* s = nullptr;
+    return stack->num;
+}
 
+
+
+// Функция для получения приоритета оператора
+int getPriority(char op) {
+    if (op == '+' || op == '-')
+        return 1;
+    else if (op == '*' || op == '/')
+        return 2;
+    else if (op == '^')
+        return 3;
+    else
+        return 0;
+}
+
+// Функция для проверки, является ли символ оператором
+bool isOperator(char ch) {
+    return (ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '^');
+}
+
+bool _isdigit(char c)
+{
+    return (c >= 'a' && c <= 'z' || (c >= '0' && c <= '9') || c == '.');
+}
+
+double what_is_a_const(string c)
+{
+    if (!c.compare("e"))
+        return exp(1);
+    else if (!c.compare("pi"))
+        return acos(-1);
+    else if (!c.compare("phi"))
+        return 1.6180339887498948482;
+    else
+    {
+        double num;
+        cin >> num;
+        return num;
+        // нужна проверка повторяющихся букв
+    }
+}
+
+// Функция для преобразования выражения в постфиксную форму
+string infixToPostfix(string infix) {
+    //stack<char> opStack;
+    c_elem* opStack = nullptr;
     string postfix;
 
-    for (char c : infix)
+    for (int i = 0; i < infix.length(); i++) 
     {
-        // Случай 1. Если текущий токен является открывающей скобкой '(',
-        // помещаем его в stack
-        if (c == '(')
-            push(s, c);
+        // Пропускаем пробелы
+        if (infix[i] == ' ')
+            continue;
 
-        // Случай 2. Если текущий токен является закрывающей скобкой ')'
-       else if (c == ')')
-        {
-            // извлекаем токены из stack до тех пор, пока не появится соответствующая открывающая скобка '('
-            // Добавляем каждый оператор в конец постфиксного выражения
-            while (top(s) != '(')
+        // Добавляем операнд к выходной строке
+        else if (_isdigit(infix[i])) {
+            while (i < infix.length() && _isdigit(infix[i])) 
             {
-                postfix.push_back(top(s));
-                pop(s);
+                postfix += infix[i];
+                i++;
             }
-            pop(s);
+            postfix += ' ';
+            i--;
         }
 
-        // Случай 3. Если текущий токен является операндом, добавляем его в конец
-        // постфиксное выражение
-        else if (isOperand(c))
-            postfix.push_back(c);
-
-        // Случай 4. Если текущий токен является оператором
-        else
-        {
-
-            while (s && prec(c) >= prec(top(s)))
+        // Обрабатываем операторы
+        else if (isOperator(infix[i])) {
+            if (opStack && getPriority(top(opStack)) >= getPriority(infix[i]))
             {
-                postfix.push_back(top(s));
-                pop(s);
+                postfix += top(opStack);
+                postfix += ' ';
+                pop(opStack);
             }
+            push(opStack, infix[i]);
+        }
 
-            push(s, c);
+        // Обрабатываем открывающие скобки
+        else if (infix[i] == '(') {
+            push(opStack, infix[i]);
+        }
+        // Обрабатываем закрывающие скобки
+        else if (infix[i] == ')') {
+            while (opStack && top(opStack) != '(')
+            {
+                //postfix += opStack.top();  
+                postfix += top(opStack);
+                postfix += ' ';
+                //opStack.pop();          
+                pop(opStack);
+            }
+            //opStack.pop();  
+            pop(opStack);
         }
     }
 
-    // добавляем все оставшиеся операторы в stack в конце постфиксного выражения
-    while (s)
+    while (opStack) 
     {
-        postfix.push_back(top(s));
-        pop(s);
+        postfix += top(opStack);
+        postfix += ' ';
+        pop(opStack);
     }
 
     return postfix;
 }
 
+
+// =====================
+
+
+// Функция для выполнения операции над двумя операндами
+double performOperation(char op, double operand1, double operand2) {
+    switch (op) {
+    case '+':
+        return operand1 + operand2;
+    case '-':
+        return operand1 - operand2;
+    case '*':
+        return operand1 * operand2;
+    case '/':
+        return operand1 / operand2;
+    case '^':
+        return pow(operand1, operand2);
+    default:
+        return -1;
+    }
+}
+
+// Функция для вычисления значения выражения, заданного в постфиксной форме
+double evaluatePostfix(string postfix)
+{
+    d_elem* operandStack = nullptr;                    // stack with numbers
+
+    for (int i = 0; i < postfix.length(); i++)
+    {
+        // Пропускаем пробелы
+        if (postfix[i] == ' ')
+            continue;
+        // Добавляем операнд в стек
+        else if (isdigit(postfix[i]))                                       
+        {
+            //if (is_letter(postfix[i]))                                      // мохно добавить проверку известных констант
+            //{
+            //    string let;
+            //    while (i < postfix.length() && is_letter(postfix[i]))
+            //    {
+            //        let += postfix[i];
+            //        i++;
+            //    }
+            //    double _const = what_is_a_const(let);
+            //    push(operandStack, _const);
+            //}
+            //else
+            //{       //  То, что написано дальше 
+
+            double operand = 0;
+            while (i < postfix.length() && isdigit(postfix[i]))
+            {
+                operand = operand * 10 + (postfix[i] - '0');
+                i++;
+            }
+            if (postfix[i] == '.')
+            {
+                i++;
+                int tmp = 10;
+                while (i < postfix.length() && isdigit(postfix[i]))
+                {
+
+                    operand += (double)(postfix[i] - '0') / tmp;
+                    tmp *= 10;
+                    i++;
+                }
+            }
+            push(operandStack, operand);
+            i--;
+        }
+
+        // Выполняем операцию над двумя последними операндами в стеке
+        else if (isOperator(postfix[i]))
+        {
+            double operand2 = top(operandStack);
+            pop(operandStack);
+            double operand1 = top(operandStack);
+            pop(operandStack);
+            double result = performOperation(postfix[i], operand1, operand2);
+            push(operandStack, result);
+        }
+    }
+
+    return top(operandStack);
+}
+
 int main()
 {
-    string infix = "e-x^2";
-    //string infix = "2*2+2";
+    //string postfix = "4 5 + 0.5 ^";
+    string infix = "((1 + 2)^3)/((5-6)*(2.718281828+0.5^12)^3)";
 
 
-    string postfix = infixToPostfix(infix);
-    cout << postfix << endl;
+    //cout << "Postfix expression: " << postfix << endl;
+    //cout << "Result: " << evaluatePostfix(postfix) << endl;
+
+    cout.precision(25);
+    cout << "Postfix expression: " << infixToPostfix(infix) << endl;
+    cout << "Result: " << evaluatePostfix(infixToPostfix(infix)) << endl;
+
 
     return 0;
 }
