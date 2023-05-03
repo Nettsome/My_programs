@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stack>
+//#include <stack>
 #include <string>
 #include <cmath>
 
@@ -109,7 +109,7 @@ double what_is_a_const(string c)
 // Функция для преобразования выражения в постфиксную форму
 string infixToPostfix(string infix) {
     //stack<char> opStack;
-    c_elem* opStack = nullptr;
+    c_elem* opStack = nullptr;  // стек с операциями
     string postfix;
 
     for (int i = 0; i < infix.length(); i++) 
@@ -131,7 +131,7 @@ string infixToPostfix(string infix) {
 
         // Обрабатываем операторы
         else if (isOperator(infix[i])) {
-            if (opStack && getPriority(top(opStack)) >= getPriority(infix[i]))
+            while (opStack && getPriority(top(opStack)) >= getPriority(infix[i]))
             {
                 postfix += top(opStack);
                 postfix += ' ';
@@ -258,11 +258,10 @@ double evaluatePostfix(string postfix)
 int main()
 {
     //string postfix = "4 5 + 0.5 ^";
-    string infix = "((1 + 2)^3)/((5-6)*(2.718281828+0.5^12)^3)";
+    //string infix = "((1 + 2)^3)/((5-6)*(2.718281828+0.5^12)^3)";
+    string infix = "5*2^(3 + 2)";
 
 
-    //cout << "Postfix expression: " << postfix << endl;
-    //cout << "Result: " << evaluatePostfix(postfix) << endl;
 
     cout.precision(25);
     cout << "Postfix expression: " << infixToPostfix(infix) << endl;
