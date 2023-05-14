@@ -27,7 +27,7 @@
     <ClCompile Include="task2_2.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="test_file.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

@@ -131,7 +131,7 @@
     <ClCompile Include="lesson_2_2.cpp" />
     <ClCompile Include="stack.cpp" />
     <ClCompile Include="task2_2.cpp" />
-    <ClCompile Include="test.cpp" />
+    <ClCompile Include="test_file.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stek.h" />

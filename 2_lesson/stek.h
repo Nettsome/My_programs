@@ -91,13 +91,5 @@ struct m_elem
 void        push(m_elem*& stack, char skob, int pos);
 
 bool        pop(m_elem*& stack, char& skob, int& pos);
-
-
-
-
-
-
-
-
  
 #endif
