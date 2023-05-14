@@ -1,7 +1,8 @@
 #pragma once
 #include "Struct.h"
 #include "queue.h"
-#include <string>
+#include <iostream>
+
 
 struct tree
 {
@@ -27,9 +28,13 @@ struct person_tree
 	person_node* root = nullptr;
 };
 
-bool		add(person_tree*& tree, person pers);
+bool		add(person_tree& tree, person pers);
 queue_p		find(person_tree tree, char c);
 void		drop(person_node*& root);
+
+
+
+void	printStudentsBySurname(person_node* root, char c);
 
 
 

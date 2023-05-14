@@ -9,9 +9,9 @@ int		get_height(const person_node* root);
 void	find(person_node* root, char c, queue_p q);
 
 
-bool	add(person_tree*& tree, person pers)
+bool	add(person_tree& tree, person pers)
 {
-	return add(tree->root, pers);
+	return add(tree.root, pers);
 }
 
 queue_p		find(person_tree tree, char c)
@@ -69,7 +69,7 @@ int		get_height(const person_node* root)
 
 
 
-void	find(person_node* root, char c, queue_p q)	// Not complete
+void	find(person_node* root, char c, queue_p q)									// Not complete
 {
 	if (root)
 	{
@@ -82,4 +82,19 @@ void	find(person_node* root, char c, queue_p q)	// Not complete
 		find(c >= root->p.name[0] ? root->right : root->left, c, q);
 	}
 	else return;
+}
+
+// Функция для вывода студентов на заданную букву и их баллов
+void	printStudentsBySurname(person_node* root, char c)
+{
+	if (!root) return;
+	if (root->p.name[0] == c)
+	{
+		std::cout << root->p.name << " - " << root->p.score << std::endl;
+
+		printStudentsBySurname(root->left, c);
+		printStudentsBySurname(root->right, c);
+		return;
+	}
+	printStudentsBySurname(c > root->p.name[0] ? root->right : root->left, c);
 }

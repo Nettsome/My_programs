@@ -1,5 +1,5 @@
 #include "Tree.h"
-#include <iostream>
+//#include <iostream>
 #include <chrono>
 
 using namespace std;
@@ -74,9 +74,53 @@ void	task1()
 	drop(t);
 }
 
+person	CreatPerson(char* pers_data)
+{
+	person p;
+
+	char* name = new char[20];
+	double score;
+
+	sscanf_s(pers_data, "%s %lf", name, 20, &score);
+	strcpy_s(p.name, name);
+	p.score = score;
+	delete[] name;
+
+	return p;
+}
+
+void	task2()
+{
+	person_tree t;
+
+	char name[20] = "Ivanov 4.5";
+	person pers = CreatPerson(name);
+	add(t, pers);
+
+	strcpy_s(name, "Petrov 4.0");
+	pers = CreatPerson(name);
+	add(t, pers);
+
+	strcpy_s(name, "Sergeev 4.2");
+	pers = CreatPerson(name);
+	add(t, pers);
+
+	strcpy_s(name, "Petrov 2.0");
+	pers = CreatPerson(name);
+	add(t, pers);
+
+	strcpy_s(name, "Sidorov 3.5");
+	pers = CreatPerson(name);
+	add(t, pers);
+
+	printStudentsBySurname(t.root, 'S');
+}
+
 int	main()
 {
 	//task1();
+
+	task2();
 
 
 }
