@@ -1,6 +1,6 @@
 #include "queue.h"
 
-void enqueue(queue& q, node* employee)
+void enqueue(queue1& q, node* employee)
 {
 	auto* new_elem = new queue_elem;
 	new_elem->tree_node = employee;
@@ -10,7 +10,7 @@ void enqueue(queue& q, node* employee)
 	if (!q.first) q.first = new_elem;
 }
 
-bool dequeue(queue& q, node*& node)
+bool dequeue(queue1& q, node*& node)
 {
 	if (!q.first) return false;
 	node = q.first->tree_node;
@@ -22,7 +22,7 @@ bool dequeue(queue& q, node*& node)
 	return true;
 }
 
-void clear(queue& q)
+void clear(queue1& q)
 {
 	auto* curr = q.first;
 	while (curr)

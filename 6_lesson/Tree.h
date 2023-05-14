@@ -1,6 +1,7 @@
 #pragma once
 #include "Struct.h"
 #include "queue.h"
+#include <string>
 
 struct tree
 {
@@ -19,3 +20,16 @@ queue postfix_traverse(tree& t);
 queue wide_traverse(tree& t);
 
 void	balance(tree& t);
+
+
+struct person_tree
+{
+	person_node* root = nullptr;
+};
+
+bool	add(person_tree*& tree, person pers);
+int		find(person_tree tree, char c);
+void	drop(person_node*& root);
+
+
+

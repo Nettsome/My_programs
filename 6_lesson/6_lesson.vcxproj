@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main_tree.cpp" />
+    <ClCompile Include="person_tree.cpp" />
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="tree.cpp" />
   </ItemGroup>

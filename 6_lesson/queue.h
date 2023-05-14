@@ -8,12 +8,12 @@ struct queue_elem
 	queue_elem* prev = nullptr;
 };
 
-struct queue
+struct queue1
 {
 	queue_elem* first = nullptr;
 	queue_elem* last = nullptr;
 };
 
-void enqueue(queue& q, node* employee);
-bool dequeue(queue& q, node*& employee);
-void clear(queue& q);
+void enqueue(queue1& q, node* employee);
+bool dequeue(queue1& q, node*& employee);
+void clear(queue1& q);

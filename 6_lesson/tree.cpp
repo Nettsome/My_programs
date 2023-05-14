@@ -14,6 +14,7 @@ void postfix_traverse(node* root, queue& q);
 void wide_traverse(node* root, queue& q);
 
 void	_balance(node*& n);
+int		get_height_difference(const node* n);
 void	_small_left_rotate(node*& n);
 void	_small_right_rotate(node*& n);
 void	_big_left_rotate(node*& n);
@@ -206,50 +207,61 @@ void	balance(tree& t)
 	_balance(t.root);
 }
 
-void _balance(node*& n)
+int		get_height_difference(const node* n)
 {
-	// Проверяем, что переданный узел существует
-	if (!n) return;
+	if (!n) return 0;
+
 	// Определяем высоты левого и правого поддеревьев
 	auto lh = get_height(n->left);
 	auto rh = get_height(n->right);
 	// Определяем разность высот двух поддеревьев
-		auto dh = lh - rh;
+	auto dh = lh - rh;
 	// Находим абсолютную величину разности
-		dh = dh >= 0 ? dh : -dh;
-	// Если разность высот 2 или более, требуется балансировка
-		if (dh >= 2)
-		{
-		// Если правая ветвь длиннее, делаем левый поворот
-			if (rh > lh)
-			{
-				// Определим высоты поддеревьев в правом поддереве
-				auto rlh = get_height(n->right->left);
-				auto rrh = get_height(n->right->right);
-				// Если правое под-поддерево больше, делаем малый поворот
-				if (rrh > rlh) _small_left_rotate(n);
-				// иначе - большой
-				else _big_left_rotate(n);
-			}
-			// Будем делать правый поворот, если левая ветвь больше
-			else
-			{
-				// Определим высоты поддеревьев в левом поддереве
-				auto llh = get_height(n->left->left);
-				auto lrh = get_height(n->left->right);
-				// Если левое под-поддерево больше, делаем малый поворот
-				if (llh > lrh) _small_right_rotate(n);
-				// иначе - большой
-				else _big_right_rotate(n);
-			}
-		}
-		else
-		{
-			// Разбалансировки нет. Просто уточняем высоту текущего узла
-			get_height(n);
-		}
+	return dh >= 0 ? dh : -dh;
 }
 
+
+void _balance(node*& n)
+{
+	// Проверяем, что переданный узел существует
+	if (!n) return;
+
+	// Если разность высот 2 или более, требуется балансировка
+	while (get_height_difference(n) >= 2)
+	{
+		auto lh = get_height(n->left);
+		auto rh = get_height(n->right);
+
+		// Если правая ветвь длиннее, делаем левый поворот
+		if (rh > lh)
+		{
+			// Определим высоты поддеревьев в правом поддереве
+			auto rlh = get_height(n->right->left);
+			auto rrh = get_height(n->right->right);
+			// Если правое под-поддерево больше, делаем малый поворот
+			if (rrh > rlh) _small_left_rotate(n);
+			// иначе - большой
+			else _big_left_rotate(n);
+		}
+		// Будем делать правый поворот, если левая ветвь больше
+		else
+		{
+			// Определим высоты поддеревьев в левом поддереве
+			auto llh = get_height(n->left->left);
+			auto lrh = get_height(n->left->right);
+			// Если левое под-поддерево больше, делаем малый поворот
+			if (llh > lrh) _small_right_rotate(n);
+			// иначе - большой
+			else _big_right_rotate(n);
+		}
+	}
+	// Балансируем поддеревья
+	_balance(n->right);
+	_balance(n->left);
+
+	// Корректируем высоту
+	n->height = get_height(n);
+}
 
 void	_small_left_rotate(node*& n)
 {
