@@ -1,7 +1,9 @@
 #pragma once
 #include "Struct.h"
 #include "queue.h"
+#include "WorkFiles.h"
 #include <iostream>
+#include <stdio.h>
 
 
 struct tree
@@ -34,7 +36,5 @@ void		drop(person_node*& root);
 
 
 
-void	printStudentsBySurname(person_node* root, char c);
-
-
-
+void	printStudentsBySurname(person_tree t, char c);
+void	balance_person_tree(person_tree& tree);

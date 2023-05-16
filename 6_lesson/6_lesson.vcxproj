@@ -130,6 +130,7 @@
     <ClInclude Include="queue.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="WorkFiles.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main_tree.cpp" />
@@ -137,6 +138,9 @@
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="tree.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="students.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
