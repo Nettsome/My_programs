@@ -8,7 +8,7 @@ void	drop(person_node*& root);
 int		get_height(const person_node* root);
 void	find(person_node* root, char c, queue_p q);
 
-void	printStudentsBySurname(person_node* root, char c);
+bool	printStudentsBySurname(person_node* root, char c);
 
 int		get_height_difference(const person_node* n);
 void	_balance_person_tree(person_node*& n);
@@ -17,6 +17,7 @@ void	_small_right_rotate(person_node*& n);
 void	_big_left_rotate(person_node*& n);
 void	_big_right_rotate(person_node*& n);
 
+void	postfix_traverse(person_node* root, queue_p& q);
 
 
 bool	add(person_tree& tree, person pers)
@@ -36,7 +37,6 @@ void	drop(person_tree& tree)
 	drop(tree.root);
 }
 
-// output
 
 
 void	drop(person_node*& root)
@@ -77,8 +77,6 @@ int		get_height(const person_node* root)
 	return 1 + (lh < rh ? rh : lh);
 }
 
-
-
 void	find(person_node* root, char c, queue_p q)									// Not complete
 {
 	if (root)
@@ -94,27 +92,32 @@ void	find(person_node* root, char c, queue_p q)									// Not complete
 	else return;
 }
 
+
 // Функция для вывода студентов на заданную букву и их баллов
-void	printStudentsBySurname(person_tree t, char c)
+bool	printStudentsBySurname(person_tree t, char c)
 {
 	return printStudentsBySurname(t.root, c);
 }
 
-void	printStudentsBySurname(person_node* root, char c)
+bool	printStudentsBySurname(person_node* root, char c)
 {
-	if (!root) return;
+	if (!root) return false;
 	if (root->p.name[0] == c)
 	{
 		std::cout << root->p.name << " - " << root->p.score << std::endl;
 
 		printStudentsBySurname(root->left, c);
 		printStudentsBySurname(root->right, c);
-		return;
+		return true;
 	}
-	printStudentsBySurname(c > root->p.name[0] ? root->right : root->left, c);
+	if (printStudentsBySurname(c > root->p.name[0] ? root->right : root->left, c)) 
+		return true;
+	else
+		return false;
 }
 
 
+// open file function
 void	open_file(const char* filename, person_node*& t)
 {
 	ifstream f(filename);
@@ -145,7 +148,6 @@ person	CreatPerson(char* pers_data)
 
 	sscanf_s(pers_data, "%s %lf", name, 20, &score);
 	strcpy_s(p.name, name);
-	cout << score << endl;
 	p.score = score;
 	delete[] name;
 
@@ -153,6 +155,7 @@ person	CreatPerson(char* pers_data)
 }
 
 
+// Balance tree function
 void	balance_person_tree(person_tree& tree)
 {
 	_balance_person_tree(tree.root);
@@ -200,7 +203,6 @@ void	_small_left_rotate(person_node*& n)
 	n = new_root;
 	n->height = get_height(n);
 }
-
 void	_small_right_rotate(person_node*& n)
 {
 	person_node* new_root = n->left;
@@ -216,7 +218,6 @@ void	_big_left_rotate(person_node*& n)
 	_small_right_rotate(n->right);
 	_small_left_rotate(n);
 }
-
 void	_big_right_rotate(person_node*& n)
 {
 	_small_left_rotate(n->left);
@@ -234,4 +235,25 @@ int		get_height_difference(const person_node* n)
 	auto dh = lh - rh;
 	// Находим абсолютную величину разности
 	return dh >= 0 ? dh : -dh;
+}
+
+
+
+// Функции вывода на экран
+// Постфиксный обход дерева, т.е. вывод студентов в алфавитном порядке
+queue_p	postfix_traverse(person_tree& t)
+{
+	queue_p q;
+	postfix_traverse(t.root, q);
+	return q;
+}
+
+void	postfix_traverse(person_node* root, queue_p& q)
+{
+	if (root)
+	{
+		postfix_traverse(root->left, q);
+		postfix_traverse(root->right, q);
+		enqueue(q, root);
+	}
 }

@@ -25,6 +25,7 @@ queue wide_traverse(tree& t);
 void	balance(tree& t);
 
 
+// Task 2
 struct person_tree
 {
 	person_node* root = nullptr;
@@ -32,9 +33,13 @@ struct person_tree
 
 bool		add(person_tree& tree, person pers);
 queue_p		find(person_tree tree, char c);
-void		drop(person_node*& root);
+void		drop(person_tree& root);
 
 
 
-void	printStudentsBySurname(person_tree t, char c);
-void	balance_person_tree(person_tree& tree);
+bool		printStudentsBySurname(person_tree t, char c);
+void		balance_person_tree(person_tree& tree);
+
+// очереди для вывода на экран
+queue_p		postfix_traverse(person_tree& t);
+

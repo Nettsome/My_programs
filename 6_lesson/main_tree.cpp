@@ -29,6 +29,19 @@ void	show_tree(tree t)
 	clear(q);
 }
 
+void	show_person_tree(person_tree t)
+{
+	queue_p q = postfix_traverse(t);
+	auto curr = q.first;
+	while (curr)
+	{
+		const auto v = curr->tree_node;
+		if (!v) cout << "[-]";
+		else cout << (v->p.name) << " - " << v->p.score << endl;
+		curr = curr->next;
+	}
+}
+
 void	task1()
 {
 	tree t;
@@ -83,10 +96,17 @@ void	task2()
 	const char* filename = "students.txt";
 	open_file(filename, t.root);
 
+	show_person_tree(t);
+
 	balance_person_tree(t);
 
-	printStudentsBySurname(t, 'А');
+	char c = 'П';
+	cout << "\nВывод студентов на букву " << c << ":" << endl;
+	if (!printStudentsBySurname(t, c))
+		cout << "Таких студентов нет" << endl;
+		
 
+	drop(t);
 }
 
 int	main()
