@@ -3,7 +3,9 @@
 
 using namespace std;
 
-bool	add(person_node*& root, person pers);
+bool	add_name(person_node*& root, person pers);
+bool	add_score(person_node*& root, person pers);
+void	insert_another_pers(person& pers, person another_pers);
 void	drop(person_node*& root);
 int		get_height(const person_node* root);
 void	find(person_node* root, char c, queue_p q);
@@ -20,9 +22,17 @@ void	_big_right_rotate(person_node*& n);
 void	postfix_traverse(person_node* root, queue_p& q);
 
 
-bool	add(person_tree& tree, person pers)
+bool	add(person_tree& tree, person pers, tree_type tt)
 {
-	return add(tree.root, pers);
+	switch (tt)
+	{
+	case by_name:
+		return add_name(tree.root, pers);
+	case by_score:
+		add_score(tree.root, pers);
+	default:
+		return false;
+	}
 }
 
 queue_p		find(person_tree tree, char c)
@@ -48,7 +58,7 @@ void	drop(person_node*& root)
 	root = nullptr;
 }
 
-bool	add(person_node*& root, person pers)
+bool	add_name(person_node*& root, person pers)
 {
 	if (!root)
 	{
@@ -64,9 +74,45 @@ bool	add(person_node*& root, person pers)
 		root->p.score = (double)(root->p.score + pers.score) / 2;
 		return false;
 	}
-	const auto result = add(strcmp(pers.name, root->p.name) < 0 ? root->left : root->right, pers);
+	const auto result = add_name(strcmp(pers.name, root->p.name) < 0 ? root->left : root->right, pers);
 	if (result) root->height = get_height(root);
 	return result;
+}
+
+bool	add_score(person_node*& root, person pers)
+{
+	if (!root)
+	{
+		auto* new_node = new person_node;
+		strcpy_s(new_node->p.name, pers.name);
+		new_node->p.score = pers.score;
+		root = new_node;
+		return true;
+	}
+	if ((root->p.score - pers.score) < 1e-100)
+	{
+		insert_another_pers(root->p, pers);
+		root->p.count++;
+		return false;
+	}
+	const auto result = add_score(pers.score < root->p.score ? root->left : root->right, pers);
+	if (result) root->height = get_height(root);
+	return result;
+}
+
+void	insert_another_pers(person& pers, person another_p)
+{
+	person* curr = &pers;
+	person* new_pers = new person; 
+	strcpy_s(new_pers->name, another_p.name);  
+	new_pers->score = another_p.score;  
+
+	while (curr->another_pers)
+	{
+		curr = curr->another_pers;
+	}
+
+	curr->another_pers = new_pers;
 }
 
 int		get_height(const person_node* root)
@@ -118,25 +164,47 @@ bool	printStudentsBySurname(person_node* root, char c)
 
 
 // open file function
-void	open_file(const char* filename, person_node*& t)
+void	open_file(const char* filename, person_node*& t, tree_type tt)
 {
 	ifstream f(filename);
 
 	person p;
-
-	if (f.is_open())
+	switch (tt)
 	{
-		const int linelen = 256;
-		char* line = new char[linelen];
-		while (!f.eof())
+	case by_name:
+		if (f.is_open())
 		{
-			f.getline(line, linelen);
-			p = CreatPerson(line);
-			add(t, p);
+			const int linelen = 256;
+			char* line = new char[linelen];
+			while (!f.eof())
+			{
+				f.getline(line, linelen);
+				p = CreatPerson(line);
+				add_name(t, p);
+			}
+			delete[] line;
+			f.close();
 		}
-		delete[] line;
-		f.close();
+		break;
+	case by_score:
+		if (f.is_open())
+		{
+			const int linelen = 256;
+			char* line = new char[linelen];
+			while (!f.eof())
+			{
+				f.getline(line, linelen);
+				p = CreatPerson(line);
+				add_score(t, p);
+			}
+			delete[] line;
+			f.close();
+		}
+		break;
+	default:
+		return;;
 	}
+	
 }
 
 person	CreatPerson(char* pers_data)
@@ -253,7 +321,7 @@ void	postfix_traverse(person_node* root, queue_p& q)
 	if (root)
 	{
 		postfix_traverse(root->left, q);
-		postfix_traverse(root->right, q);
 		enqueue(q, root);
+		postfix_traverse(root->right, q);
 	}
 }

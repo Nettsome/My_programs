@@ -21,6 +21,7 @@ struct person
 	char name[20];
 	double score;
 	int count = 1;
+	person* another_pers = nullptr;		// Другой студент
 };
 
 struct person_node

@@ -5,6 +5,8 @@
 #include <iostream>
 #include <stdio.h>
 
+enum tree_type { by_name, by_score };
+
 
 struct tree
 {
@@ -31,7 +33,7 @@ struct person_tree
 	person_node* root = nullptr;
 };
 
-bool		add(person_tree& tree, person pers);
+bool		add(person_tree& tree, person pers, tree_type tt);
 queue_p		find(person_tree tree, char c);
 void		drop(person_tree& root);
 
@@ -43,3 +45,4 @@ void		balance_person_tree(person_tree& tree);
 // очереди для вывода на экран
 queue_p		postfix_traverse(person_tree& t);
 
+void	open_file(const char* filename, person_node*& t, tree_type tt);

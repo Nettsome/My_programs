@@ -56,7 +56,7 @@ void	task1()
 	//	add(t_b, i);
 	//}
 
-	for (int i = 1; i < 2048; i++)
+	for (int i = 1; i < 16; i++)
 	{
 		add(t, i);
 		add(t_b, i);
@@ -65,7 +65,7 @@ void	task1()
 	//show_tree(t);
 	cout << "\nBalanced tree:" << endl;
 	balance(t_b);
-	//show_tree(t_b);
+	show_tree(t_b);
 
 	cout.precision(10);
 
@@ -94,7 +94,7 @@ void	task2()
 	person_tree t;
 
 	const char* filename = "students.txt";
-	open_file(filename, t.root);
+	open_file(filename, t.root, by_name);
 
 	show_person_tree(t);
 
@@ -109,11 +109,23 @@ void	task2()
 	drop(t);
 }
 
+void	task3()
+{
+	setlocale(LC_ALL, "Rus");
+	person_tree t;
+
+	const char* filename = "students.txt";
+	open_file(filename, t.root, by_score);
+
+
+	show_person_tree(t);
+}
+
 int	main()
 {
 	//task1();
 
-	task2();
+	//task2();
 
-
+	task3();
 }
